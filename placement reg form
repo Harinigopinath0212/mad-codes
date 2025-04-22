@@ -1,0 +1,88 @@
+package com.example.app2;
+
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText editStudentName, editStudentEmail, editStudentContact, editStudentPassword;
+    Button btnRegister;
+    TextView textResult;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        editStudentName = findViewById(R.id.editStudentName);
+        editStudentEmail = findViewById(R.id.editStudentEmail);
+        editStudentContact = findViewById(R.id.editStudentContact);
+        editStudentPassword = findViewById(R.id.editStudentPassword);
+        btnRegister = findViewById(R.id.btnRegister);
+        textResult = findViewById(R.id.textResult);
+
+        btnRegister.setOnClickListener(v -> {
+            String name = editStudentName.getText().toString();
+            String email = editStudentEmail.getText().toString();
+            String contact = editStudentContact.getText().toString();
+            String password = editStudentPassword.getText().toString();
+
+            if (name.equals("John Doe") && email.equals("john@example.com") && password.equals("password123")) {
+                textResult.setText("Registration Successful ✅");
+            } else {
+                textResult.setText("Registration Failed ❌");
+            }
+        });
+    }
+}
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/editStudentName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Full Name" />
+
+    <EditText
+        android:id="@+id/editStudentEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email Address"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/editStudentContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Contact Number"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/editStudentPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register" />
+
+    <TextView
+        android:id="@+id/textResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:paddingTop="20dp"
+        android:textSize="18sp" />
+</LinearLayout>
+
