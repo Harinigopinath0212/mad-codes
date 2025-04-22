@@ -1,0 +1,176 @@
+package com.example.app;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private TextView display;
+    private String currentInput = "";
+    private String operator = "";
+    private double firstOperand = 0;
+    private double secondOperand = 0;
+    private boolean isOperatorClicked = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize display TextView
+        display = findViewById(R.id.display);
+
+        // Buttons for digits and operators
+        Button button1 = findViewById(R.id.button1);
+        Button button2 = findViewById(R.id.button2);
+        Button button3 = findViewById(R.id.button3);
+        Button button4 = findViewById(R.id.button4);
+        Button button5 = findViewById(R.id.button5);
+        Button button6 = findViewById(R.id.button6);
+        Button button7 = findViewById(R.id.button7);
+        Button button8 = findViewById(R.id.button8);
+        Button button9 = findViewById(R.id.button9);
+        Button button0 = findViewById(R.id.button0);
+        Button buttonAdd = findViewById(R.id.buttonAdd);
+        Button buttonSubtract = findViewById(R.id.buttonSubtract);
+        Button buttonMultiply = findViewById(R.id.buttonMultiply);
+        Button buttonDivide = findViewById(R.id.buttonDivide);
+        Button buttonClear = findViewById(R.id.buttonClear);
+        Button buttonEqual = findViewById(R.id.buttonEqual);
+
+        // Setting click listeners for buttons
+        button1.setOnClickListener(view -> appendToDisplay("1"));
+        button2.setOnClickListener(view -> appendToDisplay("2"));
+        button3.setOnClickListener(view -> appendToDisplay("3"));
+        button4.setOnClickListener(view -> appendToDisplay("4"));
+        button5.setOnClickListener(view -> appendToDisplay("5"));
+        button6.setOnClickListener(view -> appendToDisplay("6"));
+        button7.setOnClickListener(view -> appendToDisplay("7"));
+        button8.setOnClickListener(view -> appendToDisplay("8"));
+        button9.setOnClickListener(view -> appendToDisplay("9"));
+        button0.setOnClickListener(view -> appendToDisplay("0"));
+
+        buttonAdd.setOnClickListener(view -> setOperator("+"));
+        buttonSubtract.setOnClickListener(view -> setOperator("-"));
+        buttonMultiply.setOnClickListener(view -> setOperator("*"));
+        buttonDivide.setOnClickListener(view -> setOperator("/"));
+
+        buttonClear.setOnClickListener(view -> clear());
+        buttonEqual.setOnClickListener(view -> calculateResult());
+    }
+
+    // Method to append digit or operator to the display
+    private void appendToDisplay(String input) {
+        if (isOperatorClicked) {
+            currentInput = "";
+            isOperatorClicked = false;
+        }
+        currentInput += input;
+        display.setText(currentInput);
+    }
+
+    // Set the operator for calculation
+    private void setOperator(String op) {
+        if (!currentInput.isEmpty()) {
+            firstOperand = Double.parseDouble(currentInput);
+            operator = op;
+            isOperatorClicked = true;
+        }
+    }
+
+    // Method to clear the display
+    private void clear() {
+        currentInput = "";
+        display.setText(currentInput);
+    }
+
+    // Method to calculate the result based on the operator
+    private void calculateResult() {
+        if (!currentInput.isEmpty()) {
+            secondOperand = Double.parseDouble(currentInput);
+            double result = 0;
+            switch (operator) {
+                case "+":
+                    result = firstOperand + secondOperand;
+                    break;
+                case "-":
+                    result = firstOperand - secondOperand;
+                    break;
+                case "*":
+                    result = firstOperand * secondOperand;
+                    break;
+                case "/":
+                    if (secondOperand != 0) {
+                        result = firstOperand / secondOperand;
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Cannot divide by zero", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    break;
+            }
+            display.setText(String.valueOf(result));
+            currentInput = String.valueOf(result);
+            operator = "";
+        }
+    }
+}
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:gravity="center">
+
+    <!-- Simple Display for the result -->
+    <TextView
+        android:id="@+id/display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="30sp"
+        android:textColor="#000000"
+        android:gravity="end"
+        android:layout_marginBottom="12dp"
+        android:background="#f0f0f0"
+        android:padding="10dp"
+        android:elevation="2dp"/>
+
+    <!-- Buttons layout -->
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:layout_gravity="center">
+
+        <!-- Simple Buttons for digits and operations -->
+        <Button android:id="@+id/button1" android:layout_width="70dp" android:layout_height="70dp" android:text="1" android:textSize="20sp"/>
+        <Button android:id="@+id/button2" android:layout_width="70dp" android:layout_height="70dp" android:text="2" android:textSize="20sp"/>
+        <Button android:id="@+id/button3" android:layout_width="70dp" android:layout_height="70dp" android:text="3" android:textSize="20sp"/>
+        <Button android:id="@+id/buttonAdd" android:layout_width="70dp" android:layout_height="70dp" android:text="+" android:textSize="20sp"/>
+
+        <Button android:id="@+id/button4" android:layout_width="70dp" android:layout_height="70dp" android:text="4" android:textSize="20sp"/>
+        <Button android:id="@+id/button5" android:layout_width="70dp" android:layout_height="70dp" android:text="5" android:textSize="20sp"/>
+        <Button android:id="@+id/button6" android:layout_width="70dp" android:layout_height="70dp" android:text="6" android:textSize="20sp"/>
+        <Button android:id="@+id/buttonSubtract" android:layout_width="70dp" android:layout_height="70dp" android:text="-" android:textSize="20sp"/>
+
+        <Button android:id="@+id/button7" android:layout_width="70dp" android:layout_height="70dp" android:text="7" android:textSize="20sp"/>
+        <Button android:id="@+id/button8" android:layout_width="70dp" android:layout_height="70dp" android:text="8" android:textSize="20sp"/>
+        <Button android:id="@+id/button9" android:layout_width="70dp" android:layout_height="70dp" android:text="9" android:textSize="20sp"/>
+        <Button android:id="@+id/buttonMultiply" android:layout_width="70dp" android:layout_height="70dp" android:text="×" android:textSize="20sp"/>
+
+        <Button android:id="@+id/button0" android:layout_width="70dp" android:layout_height="70dp" android:text="0" android:textSize="20sp"/>
+        <Button android:id="@+id/buttonClear" android:layout_width="70dp" android:layout_height="70dp" android:text="C" android:textSize="20sp"/>
+        <Button android:id="@+id/buttonEqual" android:layout_width="70dp" android:layout_height="70dp" android:text="=" android:textSize="20sp"/>
+        <Button android:id="@+id/buttonDivide" android:layout_width="70dp" android:layout_height="70dp" android:text="÷" android:textSize="20sp"/>
+
+    </GridLayout>
+
+</LinearLayout>
