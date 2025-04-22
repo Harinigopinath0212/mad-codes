@@ -1,0 +1,64 @@
+package com.example.app2;
+
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    TextView txtProfile;
+    EditText editMessage;
+    Button btnSetProfile;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        txtProfile = findViewById(R.id.txtProfile);
+        editMessage = findViewById(R.id.editMessage);
+        btnSetProfile = findViewById(R.id.btnSetProfile);
+
+        btnSetProfile.setOnClickListener(v -> {
+            String msg = editMessage.getText().toString();
+            if (msg.startsWith("SET:")) {
+                String name = msg.substring(4).trim();
+                txtProfile.setText("Profile: " + name);
+            } else {
+                txtProfile.setText("Invalid Format ❌");
+            }
+        });
+    }
+}
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/editMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter SMS (e.g., SET:Harini)" />
+
+    <Button
+        android:id="@+id/btnSetProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Profile" />
+
+    <TextView
+        android:id="@+id/txtProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile: Default"
+        android:textSize="24sp"
+        android:paddingTop="20dp" />
+</LinearLayout>
+
